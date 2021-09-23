@@ -45,9 +45,7 @@ class FoundSecret extends Error {
     core.setFailed(`Found some secrets!`);
     console.error(foundSecrets.join('\n'));
   }
-})().then(() => {
-  console.log(chalk.green('No secrets were found!'))
-}).catch(error => {
+})().catch(error => {
   console.log(chalk.redBright('Something went really wrong here!'))
   core.setFailed(error.message);
 })
