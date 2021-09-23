@@ -1,0 +1,36 @@
+name: Integration
+on: push
+env:
+  TEST_SECRET_1: ${{ secrets.TEST_SECRET_1 }}
+  TEST_SECRET_2: ${{ secrets.TEST_SECRET_2 }}
+  TEST_SECRET_3: ${{ secrets.TEST_SECRET_3 }}
+  TEST_SECRET_4: ${{ secrets.TEST_SECRET_4 }}
+  TEST_SECRET_5: ${{ secrets.TEST_SECRET_5 }}
+
+test-secrets: &test-secrets |
+  TEST_SECRET_1: ${{ secrets.TEST_SECRET_1 }}
+  TEST_SECRET_2: ${{ secrets.TEST_SECRET_2 }}
+  TEST_SECRET_3: ${{ secrets.TEST_SECRET_3 }}
+
+jobs:
+  integration-test-script:
+    name: Script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: bash build.sh
+        working-directory: ./fixtures/script
+      - name: run check-secrets
+        id: test
+        uses: ./
+        continue-on-error: true
+        with:
+          secrets: *test-secrets
+          patterns: fixtures/script/**
+      - name: check test failed
+        if: steps.test.outcome != 'failure'
+        run: echo -e "Integration::Script \e[91mFailed\e[39m (expected) ✅"
+
+
+
+

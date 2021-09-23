@@ -1,0 +1,16 @@
+name: Check Secrets
+description: Checks your build artefacts for GitHub secrets
+inputs:
+    secrets:
+        description: List github secrets to check
+        required: true
+    patterns:
+        description: Patterns used to define which folders to look in
+        required: false
+        default: '**'
+outputs:
+    found:
+        description: A list of the secrets found in your build artefacts
+runs:
+    using: node12
+    main: action.js
