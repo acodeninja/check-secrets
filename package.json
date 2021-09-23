@@ -4,7 +4,8 @@
   "description": "",
   "main": "action.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",

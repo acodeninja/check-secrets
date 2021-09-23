@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fg = require('fast-glob');
-const {readFile} = require('fs/promises')
+const { promises: fs } = require('fs')
 const chalk = require('chalk');
 const fastq = require('fastq');
 
@@ -24,7 +24,7 @@ class FoundSecret extends Error {
   const queue = fastq.promise(async (entry) => {
     console.log(chalk.blue(`Searching ${entry} for secrets`));
 
-    const file = await readFile(entry, 'utf8');
+    const file = await fs.readFile(entry, 'utf8');
 
     secrets.forEach(([name, value]) => {
       if (file.includes(value)) {
