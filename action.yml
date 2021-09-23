@@ -13,4 +13,4 @@ outputs:
         description: A list of the secrets found in your build artefacts
 runs:
     using: node12
-    main: action.js
+    main: dist/action.js
