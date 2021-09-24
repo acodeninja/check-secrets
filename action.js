@@ -4,6 +4,8 @@ const fg = require('fast-glob');
 const { promises: fs } = require('fs')
 const fastq = require('fastq');
 
+const action_name = "acodeninja/check-secrets";
+
 (async () => {
   const secrets = core.getInput('secrets')
     .split("\n")
@@ -32,11 +34,13 @@ const fastq = require('fastq');
   await queue.drained();
 
   if (foundSecrets.length !== 0) {
-    core.setFailed(`Oh no! Found some secrets 😱`);
+    console.log(`::error title=${action_name}::Found secrets in your build 😱`)
 
     foundSecrets.forEach(({name, entry}) => {
-      console.log(`::warning file=${entry},title=Found a secret::${name}`)
+      console.log(`::warning file=${entry},title=${action_name}::Found ${name} in ${entry}`)
     });
+
+    process.exit(1);
   } else {
     console.log("I couldn't find any secrets 🎉");
   }
