@@ -35,12 +35,8 @@ const fastq = require('fastq');
     core.setFailed(`Oh no! Found some secrets 😱`);
 
     foundSecrets.forEach(({name, entry}) => {
-      core.warning('Found secret', {
-        title: name,
-      });
+      console.log(`::warning file=${entry},title=Found a secret::${name}`)
     });
-
-    console.error(foundSecrets.join('\n'));
   } else {
     console.log("I couldn't find any secrets 🎉");
   }
