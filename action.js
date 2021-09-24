@@ -1,7 +1,7 @@
 const core = require('@actions/core');
-const fg = require('fast-glob');
 const { promises: fs } = require('fs')
 const fastq = require('fastq');
+const {glob} = require("./src/files");
 
 const action_name = "acodeninja/check-secrets";
 
@@ -13,7 +13,7 @@ const action_name = "acodeninja/check-secrets";
   const patterns = core.getInput('patterns')
     .split("\n");
 
-  const entries = await fg(patterns, {dot: true});
+  const files = await glob(patterns);
 
   const foundSecrets = [];
   const errors = [];
@@ -28,7 +28,7 @@ const action_name = "acodeninja/check-secrets";
     });
   }, 20);
 
-  entries.forEach(entry => queue.push(entry).catch(e => errors.push(e)));
+  files.forEach(entry => queue.push(entry).catch(e => errors.push(e)));
 
   await queue.drained();
 

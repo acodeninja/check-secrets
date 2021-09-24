@@ -1,4 +1,4 @@
-name: Integration
+name: Testing
 on: push
 env:
   TEST_SECRET_1: ${{ secrets.TEST_SECRET_1 }}
@@ -8,8 +8,19 @@ env:
   TEST_SECRET_5: ${{ secrets.TEST_SECRET_5 }}
 
 jobs:
+  unit-test:
+    name: Unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: npm ci
+      - run: npm test
+
   integration-test-script:
-    name: Script
+    name: Integration::Script
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
