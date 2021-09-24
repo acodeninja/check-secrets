@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
 const fg = require('fast-glob');
 const { promises: fs } = require('fs')
 const fastq = require('fastq');
